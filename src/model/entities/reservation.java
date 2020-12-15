@@ -46,9 +46,20 @@ public class reservation {
 		return TimeUnit.DAYS.convert(di, TimeUnit.MILLISECONDS);
 	}
 	
-	public void update(Date checkin, Date checkOut ) {
+	public String update(Date checkin, Date checkOut ) {
+		
+		Date now = new Date();
+		if(checkin.before(now) || checkin.before(now)) {
+			return "Eror: só pode ser data futura meu patrão.";
+		}
+		if(!checkOut.after(checkin)){
+			return "Error: a data tenq ser maior que a do checgin.";
+		}
+		
 		this.checkin = checkin;
 		this.checkOut = checkOut;
+		
+		return null;
 	}
 	
 	@Override
