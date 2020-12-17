@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import prova.DomainException;
+
 public class reservation {
 
 	private Integer roomnunber;
@@ -14,7 +16,11 @@ public class reservation {
 	public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	
-	public reservation(Integer roomnunber, Date checkin, Date checkOut) {
+	public reservation(Integer roomnunber, Date checkin, Date checkOut){
+		if(!checkOut.after(checkin)){
+			throw new DomainException("Error: a data tenq ser maior que a do checgin.");
+		}
+
 		this.roomnunber = roomnunber;
 		this.checkin = checkin;
 		this.checkOut = checkOut;
@@ -46,20 +52,20 @@ public class reservation {
 		return TimeUnit.DAYS.convert(di, TimeUnit.MILLISECONDS);
 	}
 	
-	public String update(Date checkin, Date checkOut ) {
+	public void update(Date checkin, Date checkOut ){
 		
 		Date now = new Date();
 		if(checkin.before(now) || checkin.before(now)) {
-			return "Eror: só pode ser data futura meu patrão.";
+			throw new DomainException("Eror: só pode ser data futura meu patrão.");
 		}
 		if(!checkOut.after(checkin)){
-			return "Error: a data tenq ser maior que a do checgin.";
+			throw new DomainException("Error: a data tenq ser maior que a do checgin.");
 		}
 		
 		this.checkin = checkin;
 		this.checkOut = checkOut;
 		
-		return null;
+		//return null;
 	}
 	
 	@Override
